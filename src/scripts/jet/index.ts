@@ -1,5 +1,7 @@
 import { Page, Browser } from "puppeteer";
-import logger from "../logging";
+import logger from "../../logging";
+import path from "path";
+import fs = require("fs");
 
 const ADDRESS: string = "https://jet.com/";
 const SEARCH_BAR_HTML_ID = "MobileSearchBarInput";
@@ -17,12 +19,19 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     const hits = await page.$$(".fSSCaC");
 
     if (hits && hits.length > 0) {
-        const imageFileName = `${keyword.split(" ").join("_")}.jpeg`;
+        const imageFileName: string = `${keyword.split(" ").join("_")}.jpeg`;
         logger.info(
             `Got ${hits.length} hits, taking screenshot ${imageFileName}`
         );
+
+        const directoryPath: string = path.resolve(__dirname, "screenshots");
+
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath);
+        }
+
         await page.screenshot({
-            path: `dist/screenshots/jet/${imageFileName}`,
+            path: path.resolve(directoryPath, imageFileName),
         });
     } else {
         logger.info(`No hit`);
