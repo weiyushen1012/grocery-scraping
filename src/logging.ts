@@ -1,7 +1,8 @@
 import winston, { format } from "winston";
+import _ from "lodash";
 
 const myFormat = format.printf(({ level, message, timestamp }) => {
-    return `${timestamp} [${level}]  ${message}`;
+    return `${timestamp} [${_.toUpper(level)}]: ${message}`;
 });
 
 const logger = winston.createLogger({

@@ -20,11 +20,13 @@
     },
     "homepage": "https://github.com/weiyushen1012/grocery-scraping#readme",
     "devDependencies": {
+        "@types/lodash": "^4.14.149",
         "@types/puppeteer": "^2.0.1",
         "typescript": "^3.8.3"
     },
     "dependencies": {
         "@types/node": "^13.11.1",
+        "lodash": "^4.17.15",
         "puppeteer": "^2.1.1",
         "ts-node": "^8.8.2",
         "winston": "^3.2.1"
