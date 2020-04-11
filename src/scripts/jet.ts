@@ -22,7 +22,7 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
             `Got ${hits.length} hits, taking screenshot ${imageFileName}`
         );
         await page.screenshot({
-            path: imageFileName,
+            path: `dist/screenshots/jet/${imageFileName}`,
         });
     } else {
         logger.info(`No hit`);
