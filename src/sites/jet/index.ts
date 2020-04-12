@@ -59,7 +59,7 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
 
 const scraping = async (browser: Browser): Promise<void> => {
     const page: Page = await browser.newPage();
-    page.setViewport({ height: 1000, width: 1000 });
+    page.setViewport({ height: 1000, width: 2000 });
     await page.setUserAgent(
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
     );
