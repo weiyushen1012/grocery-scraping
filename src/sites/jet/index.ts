@@ -20,7 +20,7 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     await page.keyboard.type(keyword);
 
     page.click(`#${SEARCH_BAR_HTML_ID}`);
-    await page.keyboard.press("Enter");
+    //await page.keyboard.press("Enter");
     // await page.waitForNavigation();
 
     await page.screenshot({
