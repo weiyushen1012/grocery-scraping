@@ -20,6 +20,11 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     await page.keyboard.type(keyword);
     page.keyboard.press("Enter");
     // await page.waitForNavigation();
+
+    await page.screenshot({
+        path: path.resolve(directoryPath, "test.png"),
+    });
+
     await page.waitFor(3000);
 
     const hits = await page.$$(`.${HIT_HTML_CLASS}`);
