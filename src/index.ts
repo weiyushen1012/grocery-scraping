@@ -1,5 +1,5 @@
 import logger from "./logging";
-import puppeteer, { Browser, Page } from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 import jet from "./sites/jet";
 import { sendResult } from "./email";
 import dotenv from "dotenv";
@@ -28,7 +28,10 @@ const main = async (): Promise<void> => {
     }
 
     logger.info("Creating headless browser");
-    const browser: Browser = await puppeteer.launch({ headless: HEADLESS });
+    const browser: Browser = await puppeteer.launch({
+        headless: HEADLESS,
+        args: ["--no-sandbox"],
+    });
 
     logger.info("Scraping Jet");
     await jet(browser);
