@@ -62,6 +62,7 @@ const scraping = async (browser: Browser): Promise<void> => {
         }
 
         await page.waitFor(5000);
+        await page.close();
     }
 };
 
