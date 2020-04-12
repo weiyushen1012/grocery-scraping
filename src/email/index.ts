@@ -15,7 +15,7 @@ export const sendMail = (): void => {
     MAIL_LIST.forEach((to) => {
         transporter.sendMail(
             {
-                from: "weiyuaws@gmail.com",
+                from: process.env.EMAIL_ACCOUNT,
                 to,
                 subject: "test",
                 html: "<h1>Hello</h1>",
