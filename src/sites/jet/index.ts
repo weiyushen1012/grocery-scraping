@@ -18,8 +18,9 @@ const directoryPath: string = path.resolve(
 const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     logger.info(`Searching: ${keyword}`);
     await page.keyboard.type(keyword);
-    //await page.keyboard.press("Enter");
-    page.click(".cDTQtr");
+
+    page.click(`#${SEARCH_BAR_HTML_ID}`);
+    await page.keyboard.press("Enter");
     // await page.waitForNavigation();
 
     await page.screenshot({
