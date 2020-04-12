@@ -16,11 +16,12 @@ const directoryPath: string = path.resolve(
 
 const scraping = async (browser: Browser): Promise<void> => {
     const page: Page = await browser.newPage();
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
-    );
 
     for (let i = 0; i < keywords.length; i++) {
+        await page.setUserAgent(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
+        );
+
         await page.goto(`${ADDRESS}search?term=${keywords[i]}`);
         const keyword = keywords[i];
 
