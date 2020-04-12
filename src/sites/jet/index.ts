@@ -11,9 +11,6 @@ const OUT_OF_STOCK_HTML_CLASS = "eIFaPZ";
 const scraping = async (browser: Browser): Promise<void> => {
     const page: Page = await browser.newPage();
     await page.setViewport({ height: 1000, width: 1000 });
-    // await page.setUserAgent(
-    //     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
-    // );
 
     for (let i = 0; i < keywords.length; i++) {
         await page.goto(`${ADDRESS}search?term=${keywords[i]}`);
@@ -59,7 +56,7 @@ const scraping = async (browser: Browser): Promise<void> => {
         }
     }
 
-    await page.close();
+    //await page.close();
 };
 
 export default scraping;
