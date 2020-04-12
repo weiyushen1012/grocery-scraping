@@ -15,12 +15,12 @@ const directoryPath: string = path.resolve(
 );
 
 const scraping = async (browser: Browser): Promise<void> => {
-    for (let i = 0; i < keywords.length; i++) {
-        const page: Page = await browser.newPage();
-        await page.setUserAgent(
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
-        );
+    const page: Page = await browser.newPage();
+    await page.setUserAgent(
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/60.0.3112.50 Safari/537.36"
+    );
 
+    for (let i = 0; i < keywords.length; i++) {
         await page.goto(`${ADDRESS}search?term=${keywords[i]}`);
         const keyword = keywords[i];
 
@@ -60,10 +60,8 @@ const scraping = async (browser: Browser): Promise<void> => {
                 logger.info(`No hit: out of stock`);
             }
         }
-
-        await page.waitFor(5000);
-        await page.close();
     }
+    await page.close();
 };
 
 export default scraping;
