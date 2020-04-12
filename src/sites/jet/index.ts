@@ -8,12 +8,22 @@ const ADDRESS: string = "https://jet.com/";
 const HIT_HTML_CLASS = "fSSCaC";
 const OUT_OF_STOCK_HTML_CLASS = "eIFaPZ";
 
+const directoryPath: string = path.resolve(
+    __dirname,
+    "../../..",
+    "screenshots"
+);
+
 const scraping = async (browser: Browser): Promise<void> => {
     const page: Page = await browser.newPage();
 
     for (let i = 0; i < keywords.length; i++) {
         await page.goto(`${ADDRESS}search?term=${keywords[i]}`);
         const keyword = keywords[i];
+
+        await page.screenshot({
+            path: path.resolve(directoryPath, `${i}.jpeg`),
+        });
 
         logger.info(`Searching: ${keyword}`);
 
@@ -33,12 +43,6 @@ const scraping = async (browser: Browser): Promise<void> => {
                 } hits, taking screenshot [${imageFileName}]`
             );
 
-            const directoryPath: string = path.resolve(
-                __dirname,
-                "../../..",
-                "screenshots"
-            );
-
             if (!fs.existsSync(directoryPath)) {
                 fs.mkdirSync(directoryPath);
             }
@@ -55,7 +59,7 @@ const scraping = async (browser: Browser): Promise<void> => {
         }
     }
 
-    //await page.close();
+    await page.close();
 };
 
 export default scraping;
