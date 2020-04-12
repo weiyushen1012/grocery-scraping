@@ -1,77 +1,19 @@
 import nodemailer, { Transporter } from "nodemailer";
 import logger from "../logging";
-import path from "path";
-import fs from "fs";
+import { Attachment, htmlBuilder, attachmentsBuilder } from "./util";
 import _ from "lodash";
 import { mailList } from "./mailList";
 
-interface Attachment {
-    filename: string;
-    path: string;
-    cid: string;
-}
-
-const htmlBuilder = (): string => {
-    try {
-        let res = "";
-
-        res += `<div>${new Date()}<div>`;
-
-        const screenshots = fs.readdirSync(
-            path.resolve(__dirname, "../..", "screenshots")
-        );
-
-        for (let i = 0; i < screenshots.length; i++) {
-            res += `<h2>${screenshots[i]
-                .split(".")[0]
-                .split("_")
-                .map((word) => _.capitalize(word))
-                .join(" ")}</h2><div><img style='width:800px' src="cid:${
-                screenshots[i]
-            }" /><div>`;
-        }
-
-        return res;
-    } catch (error) {
-        return "";
-    }
-};
-
-const attachmentsBuilder = (): Attachment[] => {
-    try {
-        const res = [];
-
-        const screenshots = fs.readdirSync(
-            path.resolve(__dirname, "../..", "screenshots")
-        );
-
-        for (let i = 0; i < screenshots.length; i++) {
-            res.push({
-                filename: screenshots[i],
-                path: path.resolve(
-                    __dirname,
-                    "../..",
-                    "screenshots",
-                    screenshots[i]
-                ),
-                cid: screenshots[i],
-            });
-        }
-
-        return res;
-    } catch (error) {
-        return null;
-    }
-};
+const sesTransport = require("nodemailer-ses-transport");
 
 export const sendResult = async (): Promise<void> => {
-    const transporter: Transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL_ACCOUNT,
-            pass: process.env.EMAIL_PASSWORD,
-        },
-    });
+    const transporter: Transporter = nodemailer.createTransport(
+        sesTransport({
+            accessKeyId: process.env.AWS_KEY,
+            secretAccessKey: process.env.AWS_SECRET,
+            rateLimit: 5,
+        })
+    );
 
     const html: string = htmlBuilder();
     const attachments: Attachment[] = attachmentsBuilder();
@@ -86,7 +28,7 @@ export const sendResult = async (): Promise<void> => {
         mailList.forEach((to: string) => {
             transporter.sendMail(
                 {
-                    from: process.env.EMAIL_ACCOUNT,
+                    from: process.env.EMAIL,
                     to,
                     subject: "New Groceries Available",
                     html,
