@@ -22,9 +22,9 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     page.click(".cDTQtr");
     // await page.waitForNavigation();
 
-    // await page.screenshot({
-    //     path: path.resolve(directoryPath, "test.png"),
-    // });
+    await page.screenshot({
+        path: path.resolve(directoryPath, "test.png"),
+    });
 
     await page.waitFor(3000);
 
