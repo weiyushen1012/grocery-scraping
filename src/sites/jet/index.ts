@@ -5,7 +5,6 @@ import fs = require("fs");
 import keywords from "./keywords";
 
 const ADDRESS: string = "https://jet.com/";
-const SEARCH_BAR_HTML_ID = "MobileSearchBarInput";
 const HIT_HTML_CLASS = "fSSCaC";
 const OUT_OF_STOCK_HTML_CLASS = "eIFaPZ";
 
@@ -26,18 +25,6 @@ const scrapingKeyword = async (
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
     );
     await page.goto(`${ADDRESS}search?term=${keyword}`);
-    //await page.keyboard.type(keyword);
-
-    //await page.click(`#${SEARCH_BAR_HTML_ID}`);
-    //await page.keyboard.press("Enter");
-    // await page.waitForNavigation();
-
-    await page.screenshot({
-        path: path.resolve(
-            directoryPath,
-            `${keyword.split(" ").join("_")}_test.jpeg`
-        ),
-    });
 
     const hits = await page.$$(`.${HIT_HTML_CLASS}`);
     const outOfStock = await page.$$(`.${OUT_OF_STOCK_HTML_CLASS}`);
@@ -71,17 +58,7 @@ const scrapingKeyword = async (
 };
 
 const scraping = async (): Promise<void> => {
-    //await page.goto(ADDRESS);
-
     for (let i = 0; i < keywords.length; i++) {
-        // await page.click(`#${SEARCH_BAR_HTML_ID}`);
-
-        // if (i > 0) {
-        //     for (let j = 0; j < keywords[i - 1].length; j++) {
-        //         await page.keyboard.press("Backspace");
-        //     }
-        // }
-
         const browser: Browser = await puppeteer.launch({
             headless: true,
         });
