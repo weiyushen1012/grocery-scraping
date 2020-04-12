@@ -19,7 +19,8 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     logger.info(`Searching: ${keyword}`);
     await page.keyboard.type(keyword);
     page.keyboard.press("Enter");
-    await page.waitForNavigation();
+    // await page.waitForNavigation();
+    await page.waitFor(3000);
 
     const hits = await page.$$(`.${HIT_HTML_CLASS}`);
     const outOfStock = await page.$$(`.${OUT_OF_STOCK_HTML_CLASS}`);
