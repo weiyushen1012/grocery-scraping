@@ -19,6 +19,7 @@ const scraping = async (browser: Browser): Promise<void> => {
     await page.setUserAgent(
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
     );
+    await page.goto(ADDRESS);
 
     for (let i = 0; i < keywords.length; i++) {
         await page.goto(`${ADDRESS}search?term=${keywords[i]}`);
