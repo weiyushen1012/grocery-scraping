@@ -30,7 +30,6 @@ const main = async (): Promise<void> => {
     logger.info("Creating headless browser");
     const browser: Browser = await puppeteer.launch({
         headless: HEADLESS,
-        args: ["--no-sandbox"],
     });
 
     logger.info("Scraping Jet");
