@@ -17,7 +17,8 @@ const directoryPath: string = path.resolve(
 
 const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     logger.info(`Searching: ${keyword}`);
-    await page.keyboard.type(keyword);
+    await page.goto(`${ADDRESS}search?term=${keyword}`);
+    //await page.keyboard.type(keyword);
 
     //await page.click(`#${SEARCH_BAR_HTML_ID}`);
     //await page.keyboard.press("Enter");
@@ -66,16 +67,16 @@ const scraping = async (browser: Browser): Promise<void> => {
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
     );
 
-    await page.goto(ADDRESS);
+    //await page.goto(ADDRESS);
 
     for (let i = 0; i < keywords.length; i++) {
-        await page.click(`#${SEARCH_BAR_HTML_ID}`);
+        // await page.click(`#${SEARCH_BAR_HTML_ID}`);
 
-        if (i > 0) {
-            for (let j = 0; j < keywords[i - 1].length; j++) {
-                await page.keyboard.press("Backspace");
-            }
-        }
+        // if (i > 0) {
+        //     for (let j = 0; j < keywords[i - 1].length; j++) {
+        //         await page.keyboard.press("Backspace");
+        //     }
+        // }
 
         await scrapingKeyword(page, keywords[i]);
     }
