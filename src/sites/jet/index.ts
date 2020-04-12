@@ -10,7 +10,6 @@ const OUT_OF_STOCK_HTML_CLASS = "eIFaPZ";
 
 const scraping = async (browser: Browser): Promise<void> => {
     const page: Page = await browser.newPage();
-    await page.setViewport({ height: 1000, width: 1000 });
 
     for (let i = 0; i < keywords.length; i++) {
         await page.goto(`${ADDRESS}search?term=${keywords[i]}`);
