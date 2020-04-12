@@ -1,4 +1,4 @@
-import { Page, Browser } from "puppeteer";
+import puppeteer, { Page, Browser } from "puppeteer";
 import logger from "../../logging";
 import path from "path";
 import fs = require("fs");
@@ -15,8 +15,16 @@ const directoryPath: string = path.resolve(
     "screenshots"
 );
 
-const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
+const scrapingKeyword = async (
+    browser: Browser,
+    keyword: string
+): Promise<void> => {
     logger.info(`Searching: ${keyword}`);
+    const page: Page = await browser.newPage();
+    await page.setViewport({ height: 1000, width: 1000 });
+    await page.setUserAgent(
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
+    );
     await page.goto(`${ADDRESS}search?term=${keyword}`);
     //await page.keyboard.type(keyword);
 
@@ -25,10 +33,11 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
     // await page.waitForNavigation();
 
     await page.screenshot({
-        path: path.resolve(directoryPath, "test.png"),
+        path: path.resolve(
+            directoryPath,
+            `${keyword.split(" ").join("_")}_test.jpeg`
+        ),
     });
-
-    await page.waitFor(3000);
 
     const hits = await page.$$(`.${HIT_HTML_CLASS}`);
     const outOfStock = await page.$$(`.${OUT_OF_STOCK_HTML_CLASS}`);
@@ -58,15 +67,10 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
             logger.info(`No hit: out of stock`);
         }
     }
+    await page.close();
 };
 
-const scraping = async (browser: Browser): Promise<void> => {
-    const page: Page = await browser.newPage();
-    await page.setViewport({ height: 1000, width: 1000 });
-    await page.setUserAgent(
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
-    );
-
+const scraping = async (): Promise<void> => {
     //await page.goto(ADDRESS);
 
     for (let i = 0; i < keywords.length; i++) {
@@ -78,10 +82,13 @@ const scraping = async (browser: Browser): Promise<void> => {
         //     }
         // }
 
-        await scrapingKeyword(page, keywords[i]);
-    }
+        const browser: Browser = await puppeteer.launch({
+            headless: true,
+        });
 
-    await page.close();
+        await scrapingKeyword(browser, keywords[i]);
+        await browser.close();
+    }
 };
 
 export default scraping;

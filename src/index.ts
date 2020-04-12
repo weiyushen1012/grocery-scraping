@@ -28,14 +28,9 @@ const main = async (): Promise<void> => {
     }
 
     logger.info("Creating headless browser");
-    const browser: Browser = await puppeteer.launch({
-        headless: HEADLESS,
-    });
 
     logger.info("Scraping Jet");
-    await jet(browser);
-
-    await browser.close();
+    await jet();
 
     await sendResult();
     logger.info("----END----");
