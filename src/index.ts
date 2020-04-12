@@ -9,7 +9,7 @@ import path from "path";
 
 dotenv.config();
 
-const HEADLESS: boolean = true;
+const HEADLESS: boolean = false;
 
 const main = async (): Promise<void> => {
     logger.info("----BEGIN----");
