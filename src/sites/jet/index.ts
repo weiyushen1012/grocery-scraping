@@ -60,6 +60,8 @@ const scraping = async (browser: Browser): Promise<void> => {
                 logger.info(`No hit: out of stock`);
             }
         }
+
+        await page.waitFor(5000);
     }
 };
 
