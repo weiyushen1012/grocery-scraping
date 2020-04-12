@@ -29,7 +29,11 @@ const scrapingKeyword = async (page: Page, keyword: string): Promise<void> => {
             } hits, taking screenshot [${imageFileName}]`
         );
 
-        const directoryPath: string = path.resolve(__dirname, "screenshots");
+        const directoryPath: string = path.resolve(
+            __dirname,
+            "../../..",
+            "screenshots"
+        );
 
         if (!fs.existsSync(directoryPath)) {
             fs.mkdirSync(directoryPath);

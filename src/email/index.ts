@@ -3,8 +3,7 @@ import logger from "../logging";
 import path from "path";
 import fs from "fs";
 import _ from "lodash";
-
-const MAIL_LIST = ["weiyushen1012@yahoo.com"];
+import { mailList } from "./mailList";
 
 interface Attachment {
     filename: string;
@@ -14,28 +13,22 @@ interface Attachment {
 
 const htmlBuilder = (): string => {
     try {
-        const sites: string[] = fs.readdirSync(
-            path.resolve(__dirname, "..", "sites")
-        );
-
         let res = "";
 
         res += `<div>${new Date()}<div>`;
 
-        for (let i = 0; i < sites.length; i++) {
-            const screenshots = fs.readdirSync(
-                path.resolve(__dirname, "..", "sites", sites[i], "screenshots")
-            );
+        const screenshots = fs.readdirSync(
+            path.resolve(__dirname, "../..", "screenshots")
+        );
 
-            for (let j = 0; j < screenshots.length; j++) {
-                res += `<h2>${screenshots[j]
-                    .split(".")[0]
-                    .split("_")
-                    .map((word) => _.capitalize(word))
-                    .join(" ")}</h2><div><img style='width:800px' src="cid:${
-                    screenshots[j]
-                }" /><div>`;
-            }
+        for (let i = 0; i < screenshots.length; i++) {
+            res += `<h2>${screenshots[i]
+                .split(".")[0]
+                .split("_")
+                .map((word) => _.capitalize(word))
+                .join(" ")}</h2><div><img style='width:800px' src="cid:${
+                screenshots[i]
+            }" /><div>`;
         }
 
         return res;
@@ -46,31 +39,23 @@ const htmlBuilder = (): string => {
 
 const attachmentsBuilder = (): Attachment[] => {
     try {
-        const sites: string[] = fs.readdirSync(
-            path.resolve(__dirname, "..", "sites")
-        );
-
         const res = [];
 
-        for (let i = 0; i < sites.length; i++) {
-            const screenshots = fs.readdirSync(
-                path.resolve(__dirname, "..", "sites", sites[i], "screenshots")
-            );
+        const screenshots = fs.readdirSync(
+            path.resolve(__dirname, "../..", "screenshots")
+        );
 
-            for (let j = 0; j < screenshots.length; j++) {
-                res.push({
-                    filename: `screenshots[j]`,
-                    path: path.resolve(
-                        __dirname,
-                        "..",
-                        "sites",
-                        sites[i],
-                        "screenshots",
-                        screenshots[j]
-                    ),
-                    cid: screenshots[j],
-                });
-            }
+        for (let i = 0; i < screenshots.length; i++) {
+            res.push({
+                filename: screenshots[i],
+                path: path.resolve(
+                    __dirname,
+                    "../..",
+                    "screenshots",
+                    screenshots[i]
+                ),
+                cid: screenshots[i],
+            });
         }
 
         return res;
@@ -98,7 +83,7 @@ export const sendResult = async (): Promise<void> => {
             return;
         }
 
-        MAIL_LIST.forEach((to) => {
+        mailList.forEach((to: string) => {
             transporter.sendMail(
                 {
                     from: process.env.EMAIL_ACCOUNT,
