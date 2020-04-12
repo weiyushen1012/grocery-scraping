@@ -44,7 +44,7 @@ exports.sendResult = () => __awaiter(void 0, void 0, void 0, function* () {
                     reject();
                 }
                 else {
-                    logging_1.default.info("sent result as email");
+                    logging_1.default.info(`sent result to ${to}`);
                     resolve();
                 }
             });

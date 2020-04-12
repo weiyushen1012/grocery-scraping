@@ -39,7 +39,7 @@ export const sendResult = async (): Promise<void> => {
                         logger.error(err);
                         reject();
                     } else {
-                        logger.info("sent result as email");
+                        logger.info(`sent result to ${to}`);
                         resolve();
                     }
                 }
