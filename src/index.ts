@@ -1,12 +1,12 @@
 import logger from "./logging";
 import puppeteer, { Browser, Page } from "puppeteer";
 import jet from "./sites/jet";
-import { sendMail } from "./email";
+import { sendResult } from "./email";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const HEADLESS: boolean = false;
+const HEADLESS: boolean = true;
 
 const main = async (): Promise<void> => {
     logger.info("----BEGIN----");
@@ -18,6 +18,8 @@ const main = async (): Promise<void> => {
     await jet(browser);
 
     await browser.close();
+
+    await sendResult();
     logger.info("----END----");
 };
 
