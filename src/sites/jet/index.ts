@@ -21,8 +21,6 @@ const scraping = async (browser: Browser): Promise<void> => {
 
         logger.info(`Searching: ${keyword}`);
 
-        await page.waitFor(5000);
-
         const hits = await page.$$(`.${HIT_HTML_CLASS}`);
         const outOfStock = await page.$$(`.${OUT_OF_STOCK_HTML_CLASS}`);
 
