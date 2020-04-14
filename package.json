@@ -28,6 +28,9 @@
         "@types/puppeteer": "^2.0.1",
         "typescript": "^3.8.3"
     },
+    "files": [
+        "dist"
+    ],
     "dependencies": {
         "dotenv": "^8.2.0",
         "lodash": "^4.17.15",
