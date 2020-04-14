@@ -1,5 +1,4 @@
 import logger from "./logging";
-import puppeteer, { Browser } from "puppeteer";
 import jet from "./sites/jet";
 import { sendResult } from "./email";
 import dotenv from "dotenv";
