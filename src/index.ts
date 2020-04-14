@@ -10,8 +10,6 @@ import path from "path";
 dotenv.config();
 
 const main = async (): Promise<void> => {
-    logger.info("----BEGIN----");
-
     const screenshotsDir = path.resolve(__dirname, "..", "screenshots");
     if (fs.existsSync(screenshotsDir)) {
         logger.warn("Removing previous screenshots");
@@ -29,7 +27,6 @@ const main = async (): Promise<void> => {
     await jet();
 
     await sendResult();
-    logger.info("----END----");
 };
 
 const runType: string = process.argv[2];
